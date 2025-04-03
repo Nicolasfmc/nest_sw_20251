@@ -28,8 +28,11 @@ export class AppRepository {
     const res = await this.entityManager.query(
       `SELECT * FROM PK_USERS WHERE ID = ${id} AND IND_INATIVO = 0`,
     );
+    // const res = await this.pkUsersRepo.findOne({
+    //   where: { id, indInativo: 0 },
+    // });
 
-    if (res.length < 1) throw new NotFoundException('Usuário não encontrado!');
+    if (!res) throw new NotFoundException('Usuário não encontrado!');
 
     return res;
   }
