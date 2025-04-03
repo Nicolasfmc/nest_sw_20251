@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { GetUserLoginDto } from '../dto/get-user-login.dto';
 import { AuthRepository } from './auth.repository';
+import { Users } from '../entities/users.entity';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
     }
   }
 
-  async validateUser(username: string, senha: string): Promise<any> {
+  async validateUser(username: string, senha: string): Promise<Users> {
     const result = await this.authRepository.getUserLogin(username, senha);
 
     if (Array.isArray(result) && result.length < 1) {
