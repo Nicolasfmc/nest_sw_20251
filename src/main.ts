@@ -17,6 +17,7 @@ async function main() {
     .setTitle('NestJS API')
     .setDescription('Documentação da API do NestJS')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('nest-sw-20251')
     .build();
 
@@ -24,7 +25,7 @@ async function main() {
 
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(5432);
+  await app.listen(3000);
 }
 
 main();
