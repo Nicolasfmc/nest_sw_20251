@@ -35,6 +35,13 @@ export class AuthRepository {
     );
   }
 
+  async invalidateAllTokens(username: string) {
+    return await this.entityManager.query(
+      `UPDATE JWT_TOKENS SET IS_INVALID = $1 WHERE USERNAME = $2 AND IS_INVALID = $3`,
+      [TokenStatus.INVALIDADO, username, TokenStatus.VALIDO]
+    );
+  }
+
   async isTokenInvalid(token: string): Promise<boolean> {
     const result = await this.entityManager.query(
       'SELECT IS_INVALID FROM JWT_TOKENS WHERE TOKEN = $1',

@@ -13,8 +13,22 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login({ username, senha }: GetUserLoginDto): Promise<LoginRes> {
-    const user = await this.validateUser(username, senha);
+  async login({ username, senha, accessToken, refreshToken }: GetUserLoginDto): Promise<LoginRes> {
+    const [user, isAccessValid, isRefreshValid] = await Promise.all([
+      this.validateUser(username, senha),
+      this.isTokenInvalid(accessToken),
+      this.isTokenInvalid(refreshToken),
+    ]);
+
+    if (!isRefreshValid && refreshToken) {
+      await this.authRepository.invalidateToken(refreshToken);
+
+      throw new UnauthorizedException('token inválido ou expirado');
+    }
+
+    if (!isAccessValid && refreshToken) {
+      await this.authRepository.invalidateToken(accessToken);
+    }
 
     if (user) {
       const payload = { username: user.username, sub: user.id }
@@ -45,7 +59,7 @@ export class AuthService {
     const { exp, iat, ...cleanPayload } = payload;
   
     const accessToken: string = this.jwtService.sign(cleanPayload, {
-      expiresIn: '15m',
+      expiresIn: '1m',
     });
   
     const refreshToken: string = this.jwtService.sign(cleanPayload, {
@@ -53,7 +67,7 @@ export class AuthService {
     });
   
     const now = new Date();
-    const accessExp = new Date(now.getTime() + 15 * 60 * 1000); // 15 min
+    const accessExp = new Date(now.getTime() + 1 * 60 * 1000); // 1 min
     const refreshExp = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 dias
   
     await this.authRepository.saveToken({
@@ -81,7 +95,7 @@ export class AuthService {
       const payload = this.jwtService.verify(token);
   
       // Invalida o refresh token atual (rotação)
-      await this.logout(token);
+      await this.authRepository.invalidateAllTokens(payload.username);
   
       // Gera novos tokens
       return await this.generateTokens(payload);

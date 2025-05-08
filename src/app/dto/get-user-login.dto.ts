@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class GetUserLoginDto {
   @ApiProperty({
@@ -17,4 +17,20 @@ export class GetUserLoginDto {
   @IsString()
   @IsNotEmpty()
   senha: string;
+
+  @ApiProperty({
+    description: 'Token de acesso',
+    example: 'adwagawdwd',
+  })
+  @IsString()
+  @IsOptional()
+  accessToken?: string;
+
+  @ApiProperty({
+    description: 'Token de atualização',
+    example: 'adwagawdwd',
+  })
+  @IsString()
+  @IsOptional()
+  refreshToken?: string;
 }
