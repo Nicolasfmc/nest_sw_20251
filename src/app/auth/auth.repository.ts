@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager } from 'typeorm';
 import { Users } from './dto/users.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { JwtTokens } from '../entities/tokens.entity';
 import { SaveTokenReq, TokenStatus } from 'src/interfaces';
 
 @Injectable()
 export class AuthRepository {
   constructor(
     private readonly entityManager: EntityManager,
-    @InjectRepository(JwtTokens)
-    private readonly jwtTokensRepo: Repository<JwtTokens>,
   ) {}
 
   public async getUserLogin(username: string, senha: string): Promise<Users> {
@@ -22,26 +18,33 @@ export class AuthRepository {
   async saveToken({
     token,
     type,
-    user,
+    username,
     validDate,
   }: SaveTokenReq) {
-    const tokenEntity = this.jwtTokensRepo.create({
-      token,
-      type,
-      user,
-      validDate,
-      isInvalid: TokenStatus.VALIDO,
-    });
-
-    return this.jwtTokensRepo.save(tokenEntity);
+    return await this.entityManager.query(
+      `INSERT INTO JWT_TOKENS (TOKEN, TYPE, USERNAME, VALID_DATE, IS_INVALID)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [token, type, username, validDate, TokenStatus.VALIDO]
+    );    
   }
 
   async invalidateToken(token: string) {
-    return this.jwtTokensRepo.update({ token }, { isInvalid: 1 });
+    return await this.entityManager.query(
+      `UPDATE JWT_TOKENS SET IS_INVALID = $1 WHERE TOKEN = $2`,
+      [TokenStatus.INVALIDADO, token]
+    );
   }
 
   async isTokenInvalid(token: string): Promise<boolean> {
-    const record = await this.jwtTokensRepo.findOne({ where: { token } });
-    return record ? record.isInvalid === 1 : false;
+    const result = await this.entityManager.query(
+      'SELECT IS_INVALID FROM JWT_TOKENS WHERE TOKEN = $1',
+      [token]
+    );
+
+    if (Array.isArray(result) && result.length > 0) {
+      return result[0].is_invalid == TokenStatus.INVALIDADO;
+    }
+
+    return false;
   }
 }

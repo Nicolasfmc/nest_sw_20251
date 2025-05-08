@@ -17,7 +17,7 @@ export interface RegisterUserRes {
 export interface SaveTokenReq {
   token: string;
   type: number;
-  user: string;
+  username: string;
   validDate: string | Date;
 }
 
@@ -29,9 +29,4 @@ export enum TokenStatus {
 export enum TokenType {
   ACCESS = 1,
   REFRESH = 2
-}
-
-export interface GenerateTokensReq {
-  username: string;
-  sub: number;
 }

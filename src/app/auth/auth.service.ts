@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { GetUserLoginDto } from '../dto/get-user-login.dto';
 import { AuthRepository } from './auth.repository';
 import { Users } from '../entities/users.entity';
-import { GenerateTokensReq, LoginRes, TokenType } from 'src/interfaces';
+import { LoginRes, TokenType } from 'src/interfaces';
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class AuthService {
     const user = await this.validateUser(username, senha);
 
     if (user) {
-      const payload: GenerateTokensReq = { username: user.username, sub: user.id }
-      
+      const payload = { username: user.username, sub: user.id }
+
       return await this.generateTokens(payload);
     }
   }
@@ -38,16 +38,17 @@ export class AuthService {
       throw new NotFoundException('Usuário e/ou senha incorretos!');
     }
 
-    return result;
+    return result[0];
   }
 
-  async generateTokens(payload: GenerateTokensReq) {
+  async generateTokens(payload) {
+    const { exp, iat, ...cleanPayload } = payload;
   
-    const accessToken: string = this.jwtService.sign(payload, {
+    const accessToken: string = this.jwtService.sign(cleanPayload, {
       expiresIn: '15m',
     });
   
-    const refreshToken: string = this.jwtService.sign(payload, {
+    const refreshToken: string = this.jwtService.sign(cleanPayload, {
       expiresIn: '7d',
     });
   
@@ -58,14 +59,14 @@ export class AuthService {
     await this.authRepository.saveToken({
       token: accessToken,
       type: TokenType.ACCESS,
-      user: payload.username,
+      username: cleanPayload.username,
       validDate: accessExp,
     });
 
     await this.authRepository.saveToken({
       token: refreshToken,
       type: TokenType.REFRESH,
-      user: payload.username,
+      username: cleanPayload.username,
       validDate: refreshExp,
     });
   
@@ -74,7 +75,7 @@ export class AuthService {
 
   async refreshToken(token: string) {
     const isInvalid = await this.isTokenInvalid(token);
-    if (isInvalid) throw new UnauthorizedException('Token inválido');
+    if (isInvalid) throw new UnauthorizedException('Token inválido ou expirado');
   
     try {
       const payload = this.jwtService.verify(token);
@@ -83,7 +84,7 @@ export class AuthService {
       await this.logout(token);
   
       // Gera novos tokens
-      return this.generateTokens(payload);
+      return await this.generateTokens(payload);
     } catch (err) {
       throw new UnauthorizedException('Refresh token expirado ou inválido');
     }
