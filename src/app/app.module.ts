@@ -19,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     TypeOrmModule.forFeature([Users, Teams]),
     AuthModule,
+    MicroserviceModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppRepository],
