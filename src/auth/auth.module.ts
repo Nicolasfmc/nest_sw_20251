@@ -8,26 +8,38 @@ import { AuthRepository } from './auth.repository';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './dto/users.entity';
-import { JwtTokens } from '../entities/tokens.entity';
+import { JwtTokens } from '../app/entities/tokens.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '15m',
+          algorithm: 'RS256'
         },
       }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Users, JwtTokens]),
+    PassportModule,
   ],
-  providers: [AuthService, JwtStrategy, AuthRepository],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    AuthRepository,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard
+    },
+  ],
   controllers: [AuthController],
+  exports: [AuthService, AuthRepository],
 })
 
 export class AuthModule {}

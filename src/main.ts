@@ -3,12 +3,15 @@ import { AppModule } from './app/app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function main() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    logger: ['error', 'warn', 'verbose', 'debug', 'log'],
+  });
 
   app.enableCors({
     origin: [
       'http://localhost:3000',
-      'https://poke-consulting.vercel.app', // frontend
+      'https://poke-consulting.vercel.app',
       '*',
     ],
   });
