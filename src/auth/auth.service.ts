@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { GetUserLoginDto } from '../app/dto/get-user-login.dto';
 import { AuthRepository } from './auth.repository';
-import { Users } from '../app/entities/users.entity';
+import { Users } from '../user/entities/users.entity';
 import { LoginRes, TokenType } from 'src/interfaces';
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
 

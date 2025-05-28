@@ -1,13 +1,13 @@
 import {
-    BadRequestException,
-    ConflictException,
-    Injectable,
-    NotFoundException,
-  } from '@nestjs/common';
-  import { InjectRepository } from '@nestjs/typeorm';
-  import { EntityManager, Repository } from 'typeorm';
-  import { RegisterUserRes, StatusResponse } from 'src/interfaces';
-import { Users } from 'src/app/entities/users.entity';
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+import { RegisterUserRes, StatusResponse } from 'src/interfaces';
+import { Users } from 'src/user/entities/users.entity';
 import { RegisterUserDto } from 'src/app/dto/register-user.dto';
 import { UpdateUserDto } from 'src/app/dto/update-user.dto';
   
