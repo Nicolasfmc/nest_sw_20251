@@ -3,7 +3,5 @@
   "compilerOptions": {
     "declaration": false,
     "outDir": "../../dist/apps/microservices"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  }
 }
