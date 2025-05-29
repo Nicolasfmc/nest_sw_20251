@@ -1,0 +1,65 @@
+version: "0.1" 
+services:   
+  app:
+    image: app/node:0.0.1
+    volumes:
+      - /home/docker01/services/app-node:/usr/src/app
+    ports: 
+      - 3000:3000
+      
+    command: 
+      - ./deploy.sh
+      - app
+
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        
+  user:
+    image: app/node:0.0.1
+    volumes:
+      - /home/docker01/services/app-node:/usr/src/app
+    command: 
+      - ./deploy.sh
+      - user
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        
+  teams:
+    image: app/node:0.0.1
+    volumes:
+      - /home/docker01/services/app-node:/usr/src/app
+    command: 
+      - ./deploy.sh
+      - teams
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        
+  rabbitmq:
+    image: rabbitmq:3.11.5-management
+    environment:
+        - RABBITMQ_DEFAULT_USER=admin
+        - RABBITMQ_DEFAULT_PASS=12345
+        - RABBITMQ_ERLANG_COOKIE=cluster_cookie
+        - CLUSTERED=true
+    ports:
+        - 5672:5672
+        - 15672:15672
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+         limits:
+           memory: 512M
+         reservations:
+           memory: 256M
