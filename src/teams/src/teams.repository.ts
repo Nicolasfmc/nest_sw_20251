@@ -1,22 +1,16 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { RegisterUserRes, StatusResponse } from 'src/interfaces';
-import { Users } from 'src/user/entities/users.entity';
-import { RegisterUserDto } from 'src/app/dto/register-user.dto';
-import { UpdateUserDto } from 'src/app/dto/update-user.dto';
+import { StatusResponse } from 'src/user/src/interfaces';
+import { Teams } from './entities/teams.entity';
+import { SaveTeamDto } from 'src/app/dto/save-team.dto';
   
 @Injectable()
-export class AppRepository {
+export class TeamsRepository {
   constructor(
     private readonly entityManager: EntityManager,
-    @InjectRepository(Users)
-    private readonly pkUsersRepo: Repository<Users>,
+    @InjectRepository(Teams)
+    private readonly pkTeamsRepo: Repository<Teams>,
   ) {}
 
   public async getTeam(idOwner: number): Promise<Teams[]> {

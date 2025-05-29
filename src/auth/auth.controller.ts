@@ -5,7 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
-import { LoginRes } from 'src/interfaces';
+import { LoginRes } from 'src/user/src/interfaces';
 
 @Controller('auth')
 @ApiTags('Auth')

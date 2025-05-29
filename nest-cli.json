@@ -1,5 +1,40 @@
 {
-  "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "monorepo": true,
+  "root": "src",
+  "compilerOptions": {
+    "watchAssets": true,
+    "webpack": true,
+    "tsConfigPath": "src/app/tsconfig.app.json"
+  },
+  "projects": {
+    "app": {
+      "type": "application",
+      "root": "src",
+      "entryFile": "main",
+      "sourceRoot": "src",
+      "compilerOptions": {
+        "tsConfigPath": "src/app/tsconfig.app.json"
+      }
+    },
+    "teams": {
+      "type": "application",
+      "root": "src/teams",
+      "entryFile": "main",
+      "sourceRoot": "src/teams/src",
+      "compilerOptions": {
+        "tsConfigPath": "src/teams/tsconfig.app.json"
+      }
+    },
+    "user": {
+      "type": "application",
+      "root": "src/user",
+      "entryFile": "main",
+      "sourceRoot": "src/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "src/user/tsconfig.app.json"
+      }
+    }
+  }
 }

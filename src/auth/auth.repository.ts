@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { Users } from './dto/users.entity';
-import { SaveTokenReq, TokenStatus } from 'src/interfaces';
+import { SaveTokenReq, TokenStatus } from 'src/user/src/interfaces';
 
 @Injectable()
 export class AuthRepository {

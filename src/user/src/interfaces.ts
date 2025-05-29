@@ -30,3 +30,7 @@ export enum TokenType {
   ACCESS = 1,
   REFRESH = 2
 }
+
+export interface StatusResponse {
+  status: string;
+}

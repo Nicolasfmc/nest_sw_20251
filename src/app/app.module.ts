@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { PostgresDatabaseService } from './generics/database/postgres-database';
 import { PostgresService } from './generics/database/postgres-service';
+import { UserModule } from './user/user.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { PostgresService } from './generics/database/postgres-service';
       inject: [ConfigService],
     }),
     AuthModule,
-    UsersModule,
+    UserModule,
     TeamsModule,
   ],
   providers: [

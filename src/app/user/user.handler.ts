@@ -1,21 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { Inject, Logger } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { StatusResponse } from 'src/user/src/interfaces';
+import { Users } from 'src/user/src/entities/users.entity';
 
 @Injectable()
 export class UserHandler {
+  constructor(
+    @Inject('USER_SERVICE_RMQ')
+    private clientUserRMQ: ClientRMQ,
+  ) {}
+
   private readonly logger = new Logger(UserHandler.name);
 
-  constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) {}
+  public getStatus(): Observable<StatusResponse> {
+    return this.clientUserRMQ.send({ cmd: 'User.HealthCheck' }, {});
+  }
 
-  async handleUserRequest(id: string) {
-    const userId = parseInt(id, 10);
+  async getUser(id: number): Observable<Users> {
+    this.logger.log(`Sent message to queue: get_user with ID ${id}`);
 
-    if (isNaN(userId)) {
-      throw new Error('Invalid user ID');
-    }
-
-    await this.client.emit('get_user', userId);
-    this.logger.log(`Sent message to queue: get_user with ID ${userId}`);
+    return this.clientUserRMQ.send({ cmd: 'User.GetUser' }, { id });
   }
 }
