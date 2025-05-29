@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { TeamsModule } from './teams.module';
-import { RmqService } from 'src/app/generics/rmq/rmq-service';
+import { RmqService } from 'src/app/src/generics/rmq/rmq-service';
 
 async function main(): Promise<void> {
   const app = await NestFactory.create(TeamsModule);

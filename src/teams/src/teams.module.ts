@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgresDatabaseService } from 'src/app/generics/database/postgres-database';
-import { PostgresService } from 'src/app/generics/database/postgres-service';
+import { PostgresDatabaseService } from 'src/app/src/generics/database/postgres-database';
+import { PostgresService } from 'src/app/src/generics/database/postgres-service';
 import { Teams } from './entities/teams.entity';
 import { TeamsControllerRMQ } from './teams.controller.rmq';
 import { TeamsRepository } from './teams.repository';

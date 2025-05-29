@@ -8,8 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { RegisterUserRes, StatusResponse } from 'src/user/src/interfaces';
 import { Users } from 'src/user/src/entities/users.entity';
-import { RegisterUserDto } from 'src/app/dto/register-user.dto';
-import { UpdateUserDto } from 'src/app/dto/update-user.dto';
+import { RegisterUserDto } from 'src/app/src/dto/register-user.dto';
+import { UpdateUserDto } from 'src/app/src/dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {

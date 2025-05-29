@@ -1,6 +1,6 @@
 import { Controller, Body, Post, Req, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { GetUserLoginDto } from '../app/dto/get-user-login.dto';
+import { GetUserLoginDto } from '../app/src/dto/get-user-login.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { JwtAuthGuard } from './jwt-auth.guard';

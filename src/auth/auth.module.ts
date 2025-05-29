@@ -8,7 +8,7 @@ import { AuthRepository } from './auth.repository';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './dto/users.entity';
-import { JwtTokens } from '../app/entities/tokens.entity';
+import { JwtTokens } from '../app/src/entities/tokens.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
 

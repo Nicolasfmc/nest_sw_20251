@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { GetUserLoginDto } from '../app/dto/get-user-login.dto';
+import { GetUserLoginDto } from '../app/src/dto/get-user-login.dto';
 import { AuthRepository } from './auth.repository';
 import { Users } from '../user/src/entities/users.entity';
 import { LoginRes, TokenType } from 'src/user/src/interfaces';

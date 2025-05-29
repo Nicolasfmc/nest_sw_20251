@@ -1,8 +1,8 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "src/app/src",
   "monorepo": true,
-  "root": "src",
+  "root": "src/app/src",
   "compilerOptions": {
     "watchAssets": true,
     "webpack": true,
@@ -11,9 +11,9 @@
   "projects": {
     "app": {
       "type": "application",
-      "root": "src",
+      "root": "src/app/src",
       "entryFile": "main",
-      "sourceRoot": "src",
+      "sourceRoot": "src/app/src",
       "compilerOptions": {
         "tsConfigPath": "src/app/tsconfig.app.json"
       }
