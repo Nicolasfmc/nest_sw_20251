@@ -2,6 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": false,
-    "outDir": "../../dist/src/app"
+    "outDir": "../../dist/src/app/src"
   }
 }
