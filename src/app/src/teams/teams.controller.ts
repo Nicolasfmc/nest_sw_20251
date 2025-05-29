@@ -15,6 +15,7 @@ import { SaveTeamDto } from '../dto/save-team.dto';
 import { DeleteTeamDto } from '../dto/delete-team.dto';
 import { TeamsHandler } from './teams.handler';
 import { Teams } from 'src/teams/src/entities/teams.entity';
+import { Observable } from 'rxjs';
 
 @Controller('team')
 @ApiTags('Teams')
@@ -24,28 +25,28 @@ export class TeamsController {
 
   @ApiOperation({ summary: 'Verifica saúde da aplicação.' })
   @Get()
-  getStatus(): string {
+  getStatus(): Observable<StatusResponse> {
     return this.teamsHandler.getStatus();
   }
 
   @ApiOperation({ summary: 'Busca o time de pokémon conforme o id do dono.' })
   @Get('get-team')
   @UseGuards(JwtAuthGuard)
-  getTeam(@Query() data: GetTeamDto): Promise<Teams[]> {
+  getTeam(@Query() data: GetTeamDto): Observable<Teams[]> {
     return this.teamsHandler.getTeam(data.idOwner);
   }
 
 //   @ApiOperation({ summary: 'Salva o time de pokémon. Utilizado pra criar ou atualizar.' })
 //   @Post('save-team')
 //   @UseGuards(JwtAuthGuard)
-//   saveTeam(@Body() data: SaveTeamDto[]): Promise<StatusResponse> {
+//   saveTeam(@Body() data: SaveTeamDto[]): Observable<StatusResponse> {
 //     return this.teamsHandler.saveTeam(data);
 //   }
 
 //   @ApiOperation({ summary: 'Deleta o time de pokémon conforme o id do dono.' })
 //   @Delete('delete-team')
 //   @UseGuards(JwtAuthGuard)
-//   deleteTeam(@Query() data: DeleteTeamDto): Promise<StatusResponse> {
+//   deleteTeam(@Query() data: DeleteTeamDto): Observable<StatusResponse> {
 //     return this.teamsHandler.deleteTeam(data.idOwner);
 //   }
 }

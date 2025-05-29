@@ -18,7 +18,7 @@ export class UserHandler {
     return this.clientUserRMQ.send({ cmd: 'User.HealthCheck' }, {});
   }
 
-  async getUser(id: number): Observable<Users> {
+  getUser(id: number): Observable<Users> {
     this.logger.log(`Sent message to queue: get_user with ID ${id}`);
 
     return this.clientUserRMQ.send({ cmd: 'User.GetUser' }, { id });

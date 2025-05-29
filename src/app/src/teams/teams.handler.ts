@@ -18,7 +18,7 @@ export class TeamsHandler {
     return this.clientTeamsRMQ.send({ cmd: 'Teams.HealthCheck' }, {});
   }
 
-  async getTeam(idOwner: number): Observable<Teams[]> {
+  getTeam(idOwner: number): Observable<Teams[]> {
     this.logger.log(`Sent message to queue: get_teams with ID ${idOwner}`);
 
     return this.clientTeamsRMQ.send({ cmd: 'Teams.GetTeam' }, { idOwner });
