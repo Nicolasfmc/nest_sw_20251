@@ -10,7 +10,7 @@ async function main(): Promise<void> {
   const optionsRmq = new RmqService(
     'USER',
     configurationService,
-  ).getConnectionRmq();
+  ).createConnectionRmq();
   app.connectMicroservice<MicroserviceOptions>(optionsRmq);
   app.startAllMicroservices();
   await app.init();
