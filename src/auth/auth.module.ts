@@ -21,7 +21,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '15m',
-          algorithm: 'RS256'
+          algorithm: 'HS256'
         },
       }),
       inject: [ConfigService],
@@ -33,10 +33,10 @@ import { JwtAuthGuard } from './jwt-auth.guard';
     AuthService,
     JwtStrategy,
     AuthRepository,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard
+    // },
   ],
   controllers: [AuthController],
   exports: [AuthService, AuthRepository],

@@ -10,13 +10,14 @@ export class RmqService {
   ) {}
 
   private getUri(): string {
-    const username = this.configService.get<string>('USERNAME_RMQ');
-    const password = this.configService.get<string>('PASSWORD_RMQ');
-    const host = this.configService.get<string>('HOST_RMQ');
-    const port = this.configService.get<string>('PORT_RMQ');
-    const vhost = '/';
+    // const username = this.configService.get<string>('USERNAME_RMQ');
+    // const password = this.configService.get<string>('PASSWORD_RMQ');
+    // const host = this.configService.get<string>('HOST_RMQ');
+    // const port = this.configService.get<string>('PORT_RMQ');
+    // const vhost = '/';
 
-    return `amqp://${username}:${password}@${host}:${port}${vhost}`;
+    // return `amqp://${username}:${password}@${host}:${port}${vhost}`;
+    return 'amqps://oujkitji:UpSoBhzli84YlGPQ_dBRQourL-eWVk9b@jaragua.lmq.cloudamqp.com/oujkitji'
   }
 
   public getConnectionRmq(): ClientOptions {
